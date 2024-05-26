@@ -4,7 +4,7 @@
 #include <stack>
 using namespace std;
 
-const double Pi = acos(-1); //Объявляем значение числа Пи
+const double Pi = acos(-1); 
 
 double Sin(double x) { 
     return (round(sin((x * Pi) / 180) * 10000000) / 10000000);
@@ -14,25 +14,25 @@ double Cos(double x) {
     return (round(cos((x * Pi) / 180) * 10000000) / 10000000);
 }
 
-struct Leksema //Структура, описывающая любое число или операцию
+struct Leksema 
 {
-    char type; // 0 для чисел, "+" для операции сложения и т.д.
-    double value; //Значение (только для чисел). У операций значение всегда "0"
+    char type; 
+    double value; 
 };
 
-bool Maths(stack <Leksema>& Stack_n, stack <Leksema>& Stack_o, Leksema& item) { //Математическая функция, которая производит расчеты
-    //Функция имеет тип bool, чтобы при возникновении какой-либо ошибки возвращать "false"
+bool Maths(stack <Leksema>& Stack_n, stack <Leksema>& Stack_o, Leksema& item) { 
+    
     double a, b, c;
-    a = Stack_n.top().value; //Берется верхнее число из стека с числами
-    Stack_n.pop(); //Удаляется верхнее число из стека с числами
-    switch (Stack_o.top().type) {  //Проверяется тип верхней операции из стека с операциями
-    case '+': //Если тип верхней операции из стека с операциями сложение
+    a = Stack_n.top().value; 
+    Stack_n.pop(); 
+    switch (Stack_o.top().type) {  
+    case '+': 
         b = Stack_n.top().value;
         Stack_n.pop();
         c = a + b;
         item.type = '0';
         item.value = c;
-        Stack_n.push(item); //Результат операции кладется обратно в стек с числами
+        Stack_n.push(item); 
         Stack_o.pop();
         break;
 
@@ -154,7 +154,7 @@ bool Maths(stack <Leksema>& Stack_n, stack <Leksema>& Stack_o, Leksema& item) { 
     return true;
 }
 
-int getPriority(char Ch) { //Функция возвращает приоритет операции: "1" для сложения и вычитания, "2" для умножения и деления и т.д.
+int getPriority(char Ch) { 
     if (Ch == 's' || Ch == 'c' || Ch == 't' || Ch == 'g' || Ch == 'e' || Ch == 'l' || Ch == 'r')return 4;
     if (Ch == '^')return 3;
     if (Ch == '+' || Ch == '-')return 1;
@@ -167,21 +167,23 @@ int main()
     setlocale(LC_ALL, "rus");
     while (true) {
         system("cls");
+        cout << "Пример ввода выражений:\n";
+        cout << "+\n-\n/\n*\n^\nsin()\ncos\ntg()\nln()\nsqrt()\n";
         cout << "Введите выражение: ";
         std::string str;
         getline(cin, str);
         stringstream sstr{ str };
 
-        char Ch; //Переменная, в которую будет записываться текущий обрабатываемый символ
+        char Ch; 
         double value;
-        bool flag = true; //Нужен для того, чтобы программа смогла отличить унарный минус (-5) от вычитания (2-5)
-        stack<Leksema> Stack_n; //Стек с числами
-        stack<Leksema> Stack_o; //Стек с операциями
-        Leksema item; //Объект типа Leksema
+        bool flag = true; 
+        stack<Leksema> Stack_n; 
+        stack<Leksema> Stack_o; 
+        Leksema item; 
         while (true) {
-            Ch = sstr.peek(); //Смотрим на первый символ
-            if (Ch == '\377')break; //Если достигнут конец строки, выходим из цикла
-            if (Ch == ' ') { //Игнорирование пробелов
+            Ch = sstr.peek(); 
+            if (Ch == '\377')break;
+            if (Ch == ' ') { 
                 sstr.ignore();
                 continue;
             }
@@ -192,16 +194,16 @@ int main()
                     method[i] = Ch;
                     sstr.ignore();
                 }
-                if (method[0] == 'l' && method[1] == 'n') { //Если прочитанная функция - синус
+                if (method[0] == 'l' && method[1] == 'n') { 
                     item.type = 'l';
                     item.value = 0;
-                    Stack_o.push(item); //Операция кладется в стек с операциями
+                    Stack_o.push(item); 
                     continue;
                 }
-                if (method[0] == 't' && method[1] == 'g') { //Если прочитанная функция - синус
+                if (method[0] == 't' && method[1] == 'g') {
                     item.type = 't';
                     item.value = 0;
-                    Stack_o.push(item); //Операция кладется в стек с операциями
+                    Stack_o.push(item);
                     continue;
                 }
             }
@@ -221,7 +223,7 @@ int main()
                     if (method[0] == 's' && method[1] == 'q' && method[2] == 'r' && method[3] == 't') {
                         item.type = 'r';
                         item.value = 0;
-                        Stack_o.push(item); //Операция кладется в стек с операциями
+                        Stack_o.push(item);
                         continue;
                     }
                 }
@@ -232,112 +234,112 @@ int main()
                     if (method[0] == 's' && method[1] == 'i' && method[2] == 'n') {
                         item.type = 's';
                         item.value = 0;
-                        Stack_o.push(item); //Операция кладется в стек с операциями
+                        Stack_o.push(item);
                         continue;
                     }
                 }
             }
-            if (Ch == 'c' || Ch == 'e') { //Если прочитана функция
-                char method[3]; //массив на 3 символа для определения типа прочитанной функции
+            if (Ch == 'c' || Ch == 'e') {
+                char method[3];
                 for (int i = 0; i < 3; i++) {
                     Ch = sstr.peek();
                     method[i] = Ch;
                     sstr.ignore();
                 }
-                if (method[0] == 'c' && method[1] == 'o' && method[2] == 's') { //Если прочитанная функция - косинус
+                if (method[0] == 'c' && method[1] == 'o' && method[2] == 's') { 
                     item.type = 'c';
                     item.value = 0;
-                    Stack_o.push(item); //Операция кладется в стек с операциями
+                    Stack_o.push(item);
                     continue;
                 }
-                if (method[0] == 'c' && method[1] == 't' && method[2] == 'g') { //Если прочитанная функция - котангенс
+                if (method[0] == 'c' && method[1] == 't' && method[2] == 'g') { 
                     item.type = 'g';
                     item.value = 0;
-                    Stack_o.push(item); //Операция кладется в стек с операциями
+                    Stack_o.push(item); 
                     continue;
                 }
-                if (method[0] == 'e' && method[1] == 'x' && method[2] == 'p') { //Если прочитанная функция - экспонента
+                if (method[0] == 'e' && method[1] == 'x' && method[2] == 'p') { 
                     item.type = 'e';
                     item.value = 0;
-                    Stack_o.push(item); //Операция кладется в стек с операциями
+                    Stack_o.push(item); 
                     continue;
                 }
             }
-            if (Ch == 'p') { //Если прочитано число Пи
+            if (Ch == 'p') {
                 item.type = '0';
                 item.value = Pi;
-                Stack_n.push(item); //Число кладется в стек с числами
+                Stack_n.push(item);
                 flag = 0;
                 sstr.ignore();
                 continue;
             }
-            if (Ch >= '0' && Ch <= '9' || Ch == '-' && flag == 1) { //Если прочитано число
+            if (Ch >= '0' && Ch <= '9' || Ch == '-' && flag == 1) {
                 sstr >> value;
                 item.type = '0';
                 item.value = value;
-                Stack_n.push(item); //Число кладется в стек с числами
+                Stack_n.push(item);
                 flag = 0;
                 continue;
             }
-            if (Ch == '+' || Ch == '-' && flag == 0 || Ch == '*' || Ch == '/' || Ch == '^') { //Если прочитана операция
-                if (Stack_o.size() == 0) { //Если стек с операциями пуст
+            if (Ch == '+' || Ch == '-' && flag == 0 || Ch == '*' || Ch == '/' || Ch == '^') { 
+                if (Stack_o.size() == 0) { 
                     item.type = Ch;
                     item.value = 0;
-                    Stack_o.push(item); //Операция кладется в стек с операциями
+                    Stack_o.push(item); 
                     sstr.ignore();
                     continue;
                 }
                 if (Stack_o.size() != 0 && getPriority(Ch) >
-                    getPriority(Stack_o.top().type)) { //Если стек с операциями НЕ пуст, но приоритет текущей операции выше верхней в стеке с операциями
+                    getPriority(Stack_o.top().type)) { 
                     item.type = Ch;
                     item.value = 0;
-                    Stack_o.push(item); //Операция кладется в стек с операциями
+                    Stack_o.push(item);
                     sstr.ignore();
                     continue;
                 }
                 if (Stack_o.size() != 0 && getPriority(Ch) <=
-                    getPriority(Stack_o.top().type)) {//Если стек с операциями НЕ пуст, но приоритет текущей операции ниже либо равен верхней в стеке с операциями
-                    if (Maths(Stack_n, Stack_o, item) == false) { //Если функция вернет "false", то прекращаем работу
+                    getPriority(Stack_o.top().type)) {
+                    if (Maths(Stack_n, Stack_o, item) == false) {
                         system("pause");
                         return 0;
                     }
                     continue;
                 }
             }
-            if (Ch == '(') { //Если прочитана открывающаяся скобка
+            if (Ch == '(') {
                 item.type = Ch;
                 item.value = 0;
-                Stack_o.push(item); //Операция кладется в стек с операциями
+                Stack_o.push(item);
                 sstr.ignore();
                 continue;
             }
-            if (Ch == ')') { //Если прочитана закрывающаяся скобка
+            if (Ch == ')') {
                 while (Stack_o.top().type != '(') {
-                    if (Maths(Stack_n, Stack_o, item) == false) { //Если функция вернет "false", то прекращаем работу
+                    if (Maths(Stack_n, Stack_o, item) == false) {
                         system("pause");
                         return 0;
                     }
-                    else continue; //Если все хорошо
+                    else continue;
                 }
                 Stack_o.pop();
                 sstr.ignore();
                 continue;
             }
-            else { //Если прочитан какой-то странный символ
+            else {
                 cout << "\nНеверно введено выражение!\n";
                 system("pause");
                 return 0;
             }
         }
         while (Stack_o.size() !=
-            0) { //Вызываем матем. функцию до тех пор, пока в стеке с операциями не будет 0 элементов
-            if (Maths(Stack_n, Stack_o, item) == false) { //Если функция вернет "false", то прекращаем работу
+            0) { 
+            if (Maths(Stack_n, Stack_o, item) == false) { 
                 system("pause");
                 return 0;
             }
-            else continue; //Если все хорошо
+            else continue; 
         }
-        cout << "Ответ: " << Stack_n.top().value << endl; //Выводим ответ
+        cout << "Ответ: " << Stack_n.top().value << endl; 
         system("pause");
     }
     return 0;
